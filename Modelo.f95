@@ -34,7 +34,7 @@ OPEN(10,FILE='velocidades.txt')
  Nx=602
  Nz=302
  a=10
- b=2
+ b=5
 
 !Elementos calculados da elipse
  ema=2*a !eixo maior
@@ -48,7 +48,7 @@ ALLOCATE(vel(Nz,Nx))
 vel=1500.0
 !Interface 1
 DO j=1,Nx
-  zr=NINT(-0.1495*j+140)
+  zr=NINT(-0.0001*j+90)
   DO i=zr,Nz
     vel(i,j)=2000.0
   END DO
@@ -70,13 +70,13 @@ END DO
 !Interface 3
 
 DO j=1,Nx
-  IF(j.ge.45 .and. j.le.90) THEN
-     ze=NINT(DSQRT(a**2.0*b**2-b**2*j**2/a**2.0)) !eq. reduzida da elipse
+  IF(j.ge.40 .and. j.le.300) THEN
+     ze=250+NINT(DSQRT(a**2.0*b**2-b**2*j**2/a**2.0)) !eq. reduzida da elipse
   ELSE
      ze=250
   END IF
   DO i=ze,Nz
-     vel(i,j)=5000.0
+     vel(i,j)=3000.0
   END DO 
 END DO 
  
@@ -96,10 +96,10 @@ CLOSE(10)
 
 
 ! Salva a matriz de velicidades em um arquivo binário
-OPEN(12,FILE='VELOCIDADES.bin', STATUS='UNKNOWN',ACCESS='DIRECT',&
-FORM='UNFORMATTED',RECL=4*Nx*Nz)
-WRITE(12,REC=1)((vel(i,j),i=1,Nz),j=1,Nx)! Isto é um laço interno
-CLOSE(12)
+!OPEN(12,FILE='VELOCIDADES.bin', STATUS='UNKNOWN',ACCESS='DIRECT',&
+!FORM='UNFORMATTED',RECL=4*Nx*Nz)
+!WRITE(12,REC=1)((vel(i,j),i=1,Nz),j=1,Nx)! Isto é um laço interno
+!CLOSE(12)
 
 
 
