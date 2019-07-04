@@ -25,7 +25,7 @@ IMPLICIT NONE
  INTEGER(KIND=SP):: i,j,k, Nx, Nz, zr,zc,ze
  REAL(KIND=DP)::x,y,z,a,b,c,e,ema,eme
  REAL(KIND=DP), PARAMETER::pi=3.141592653
- REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:)::lito, vel
+ REAL(KIND=DP), ALLOCATABLE, DIMENSION(:,:)::den, vel
 
 
 OPEN(10,FILE='velocidades.txt')
@@ -43,9 +43,13 @@ OPEN(10,FILE='velocidades.txt')
  e=c/a !excentricidade 
 
 
-ALLOCATE(vel(Nz,Nx))
+WRITE(6,FMT=*)'Informações sobre o Domo de sal'  
+WRITE(6,FMT=*)'centro',c  
+WRITE(6,FMT=*)'excentricidade',e  
 
-vel=1500.0
+ALLOCATE(vel(Nz,Nx),den(Nz,Nx))
+
+vel=0000.0
 !Interface 1
 DO j=1,Nx
   zr=NINT(-0.0001*j+90)
@@ -70,13 +74,15 @@ END DO
 !Interface 3
 
 DO j=1,Nx
-  IF(j.ge.40 .and. j.le.300) THEN
-     ze=250+NINT(DSQRT(a**2.0*b**2-b**2*j**2/a**2.0)) !eq. reduzida da elipse
+  !IF(j.ge.40 .and. j.le.100) THEN
+  !   ze=230+NINT(DSQRT(a**2.0*b**2-b**2*j**2/a**2.0)) !eq. reduzida da elipse
+  IF(j.ge.45 .and. j.le.460) THEN
+     ze=230+SQRT(j**3.0-j+1)! eq da curva elíptica
   ELSE
-     ze=250
+     ze=230
   END IF
   DO i=ze,Nz
-     vel(i,j)=3000.0
+     vel(i,j)=5000.0
   END DO 
 END DO 
  
